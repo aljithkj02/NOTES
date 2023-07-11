@@ -1,37 +1,40 @@
 # Docker
 
-A brief description of what this project does and who it's for
+Docker is a containerization platform that simplifies application deployment and management.
 
 
 ## Roadmap
 
-- What is Docker?
+1. What is Docker?
 
-- What Problem does Docker solve?
+2. What Problem does Docker solve?
 
-- What are containers?
+3. What are containers?
 
-- Why do we need it?
+4. Why do we need Docker?
 
-- What can it do?
+5. What can it do?
 
-- Run docker containers
+6. Run docker containers
 
-- Create a docker image
+7. What is an image
 
-- Networks in docker
+8. Create a docker image
 
-- Docker compose
+9. Networks in docker
 
-- Docker concepts in depth
+10. Docker compose
 
-- Docker for windows/mac
+11. Docker concepts in depth
 
-- Docker swarm
+12. Docker for windows/mac
 
-- Docker vs Kubernetes
+13. Docker swarm
+
+14. Docker vs Kubernetes
 
 
+ <hr>
 
 ## 1. What is Docker?
 
