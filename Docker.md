@@ -129,6 +129,12 @@ It is used to remove an image from our docker.
   docker rmi <image-name>
 ```
 
+### - docker kill
+It is used to kill a running container.
+```bash
+  docker kill <container-id>
+```
+
 ### - docker pull
 It is used to pull a docker image from docker hub.
 ```bash
@@ -196,9 +202,56 @@ It is used to view the logs of a perticular container.
 ```bash
   docker run -v /opt/datadir:/var/lib/mysql mysql
 ```
+## 10. Create a Docker image
+To create a docker image of an application you need to follow certain steps
 
+```bash
+  # FROM: tells Docker what base image to use as a starting point.
+  FROM node:18
 
+  # WORKDIR: changes the active directory.
+  WORKDIR /
 
+  # COPY: copies the package.json file and package-lock.json
+  COPY package*.json ./
+
+  # RUN: install the dependencies
+  RUN npm install
+
+  # COPY: copies your app files into the container.
+  COPY . .
+
+  # EXPOSE: tells Docker which ports should be mapped outside the container.
+  EXPOSE 3000
+
+  # CMD: defines the command to run when the container starts.
+  CMD ["node", "index.js"]
+```
+
+ To build the Image 
+```bash
+  docker build . -t <image-name>
+```
+
+### .dockerignore file
+Create a .dockerignore file in the same directory as your Dockerfile with following content
+```bash
+  node_modules
+  npm-debug.log
+```
+
+## 11. Docker Compose
+- If we needed to setup a complex application running multiple services, a better way to do it using docker compose.
+- With docker compose we can create a configuration file in YAML format called docker-compose.yml and put different services together and options specific to running them in the file.
+- Then we can simply run docker-compose up command to bring up the entire application stack.
+- It is easier to implement, run and maintain as all changes are always stored in the docker-compose configuration file.
+- How ever this is all only applicable to running conatiners on a single docker host.
+
+### --links
+---links is command line option, which can be used to link 2 containers together.
+```bash
+  docker run -d --name=server -p 8000:80 --link db:mysql serverapp
+```
 
 
 
