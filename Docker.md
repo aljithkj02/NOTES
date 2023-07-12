@@ -101,7 +101,7 @@ It is used to list all running containers.
 ### - docker ps  -a
 It is used to list all running containers as well as the previously stopped or exited containers.
 ```bash
-  docker ps 
+  docker ps -a
 ```
 
 ### - docker stop
