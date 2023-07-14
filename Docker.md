@@ -315,7 +315,7 @@ docker-compose.yml
   - The Docker CLI is the commandline interface that we have been using to perform actions such as running a container, stopping a container, destroying images etc.
   - It uses the REST API to interact with the docker deamon.
 
-## 16. Docker Networking
+## 17. Docker Networking
 
 - Docker networking allows containers to communicate with each other and with the external world by providing a range of networking options. 
 - It enables seamless connectivity and facilitates data exchange between containers, enables container access to shared networks and services, and allows containers to be exposed on specific ports for external access, all while providing isolation and security.
@@ -331,7 +331,7 @@ docker-compose.yml
 - To access these any of the container from the outside world map the port of the container to port on the docker host.
 
 ### None
-- In none network the containers are not attached with any network and doesn't have any access to the external network or other containers.
+- In none network, the containers are not attached with any network and doesn't have any access to the external network or other containers.
 - They run in an isolated network.
 
 ### Host
@@ -339,51 +339,55 @@ docker-compose.yml
 - It means the container uses the host's network interface, and network services running on the host can be accessed directly from the container. 
 - In this mode, containers do not have their own network namespace.
 
+## 18. Container Orchestration
+### Problem
+- With docker we can run a single instance of the application with a simple docker run command. but it's just 1 instance of our application on 1 docker host.
+- What happens if the number of users increse and the instance is no longer able to handle the load. then we add additional instance of the application by running docker run command multiple time. That is something we have to do ourself.  
+- And not just that, we have to keep a close watch on the health of these applications.
+- And if a container was to fail we should be able to detect that and run the docker run command again to deploy another instance of that application.
+- what about the health of the docker host itself ? 
+- what if the host crashes and inaccessible ?
+- The containers hosted on the host become inaccessible too.
+- so what do we do inorder to solve these issues ?
+- We will need a dedicated engineer who can sit and monitor the state, performance, and health of the containers and take necessary actions to remediate the situation.
+- But if we have large applications deployed with tens of thousands of containers, that's not a practical approach.
+- So we can build our own scripts and that will help us to tackle these issues to some extent.
+- Container orchestration is just a solution for that.
 
-
-
-
-
-
-
-
-
-
-<------------>
-
-## Features
-
-- Light/dark mode toggle
-- Live previews
-- Full screen mode
-- Cross platform
-
-
-
-
-## Run Locally
-
-Clone the project
-
+### Container orchestration
+- It is a solution that consist of a set of tools and scripts that can help host containers in a production environment.
+- Typically a container orchestration solution consist of multiple docker hosts that can host containers.
+- that way even if 1 fails, The application is still accessible through the others.
+- A container orchestration solution easily allows us to deploy hundreds or thousands of instances of our application with a single command.
 ```bash
-  git clone https://link-to-project
+  docker service create --replicas=100 nodejs
 ```
+- this is a command used for Docker swarm.
+- And not just clustering and scaling, the container orchestration solutions also provide support for advanced networking between these containers across different hosts as well.
 
-Go to the project directory
+- There are multiple container orchestration solutions available today
+    - Docker has docker swarm
+    - Kubernetes from google
+    - Mesos from apache
 
+## 19. Docker Swarm
+- With docker swarm we could now combine multiple docker machines together into a single cluster.
+- Docker will take care of distributing our services or our application instances into separate hosts for high availabilty and for load balancing across different systems and hardware.
+- to set up a docker swarm, we must first have hosts or multiple hosts with docker installed on them.
+- Then we must designate one host to be the manager or the master or it's the swarm manager as it is called and others as slaves or workers.
+- Once we done with that, run the  docker swarm init command on the swarm manager and that initialize the swarm manager.
+
+## 20. Kubernetes
+- With docker, we were able to run a single instance of an application using the docker CLI by running the docker run command. 
+- With kubernetes, using the kubernetes CLI known as kube control, we can run a 1000 instance of the same application with a single command.
 ```bash
-  cd my-project
+  kubectl run --replicas=1000 my-web-server
 ```
-
-Install dependencies
-
+- kubernetes can scale it up to 2000 with another command.
 ```bash
-  npm install
+  kubectl scale --replicas=2000 my-web-server
 ```
-
-Start the server
-
-```bash
-  npm run start
-```
-
+- Kubernetes can be even configured to do this automatically so that instances and the infrastructure itself can scale up and down based on user load.
+- Kubernetes can upgrade these 2000 instances of the application in a rolling  upgrade fasion 1 at a time with a single command.
+- If something goes wrong it can help us rollback these images with a single command.
+- Kubernetes uses docker hosts to host application in the form of docker containers.
