@@ -316,6 +316,9 @@ docker-compose.yml
   - It uses the REST API to interact with the docker deamon.
 
 ## 16. Docker Networking
+
+- Docker networking allows containers to communicate with each other and with the external world by providing a range of networking options. 
+- It enables seamless connectivity and facilitates data exchange between containers, enables container access to shared networks and services, and allows containers to be exposed on specific ports for external access, all while providing isolation and security.
 - When we install docker it creates 3 networks automatically.
     - Bridge
     - none
@@ -330,6 +333,11 @@ docker-compose.yml
 ### None
 - In none network the containers are not attached with any network and doesn't have any access to the external network or other containers.
 - They run in an isolated network.
+
+### Host
+- When using the host network mode, the container shares the network stack with the host. 
+- It means the container uses the host's network interface, and network services running on the host can be accessed directly from the container. 
+- In this mode, containers do not have their own network namespace.
 
 
 
