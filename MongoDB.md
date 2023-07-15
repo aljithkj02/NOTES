@@ -159,4 +159,292 @@ MongoDB leverages memory for various operations:
 
 These internal components play a crucial role in MongoDB's performance, reliability, and scalability. The choice of storage engine impacts data storage and retrieval efficiency, while the flexible data model and memory management techniques contribute to MongoDB's agility and speed.
 
-## 14. 
+## 14. MongoDB Databases
+- A collection in MongoDB is a group of documents.
+- A database is group of collections that exists.
+
+## CRUD Operations
+### Use the below data for practice.
+```bash
+    [
+        {
+            _id: ObjectId("64b267b4c648b9effc2d0773"),
+            name: 'Deborah Allen',
+            age: 22,
+            city: 'Las Vegas, United States',
+            location: [ 40.8584, 1.2945 ],
+            hobbies: [ 'Swimming', 'Painting' ]
+        },
+        {
+            _id: ObjectId("64b267b4c648b9effc2d0774"),
+            name: 'Angela Perez',
+            age: 25,
+            city: 'New York, United States',
+            location: [ 31.4782, 1.2245 ],
+            hobbies: [ 'Woodworking', 'Reading' ]
+        },
+        {
+            _id: ObjectId("64b267b4c648b9effc2d0775"),
+            name: 'Michael Dsouza',
+            age: 23,
+            city: 'San Jose, United States',
+            location: [ 40.6892, 74.0445 ],
+            hobbies: [ 'Dancing' ],
+            education: { university: 'calicut', start: '05-2017', end: '02-2019' }
+        },
+        {
+            _id: ObjectId("64b267b4c648b9effc2d0776"),
+            name: 'Lauren Shaw',
+            age: 20,
+            city: 'New Jersey, United States',
+            location: [ 21.3387, 36.7645 ],
+            hobbies: [ 'Cooking' ]
+        },
+        {
+            _id: ObjectId("64b267b4c648b9effc2d0777"),
+            name: 'Lewis Fisher',
+            age: 33,
+            city: 'San Jose, United States',
+            location: [ 40.6892, 74.0445 ],
+            hobbies: [ 'Dancing' ],
+            education: { university: 'calicut', start: '05-2017', end: '02-2019' }
+        },
+        {
+            _id: ObjectId("64b267b4c648b9effc2d0778"),
+            name: 'Nina Jekins',
+            age: 29,
+            city: 'San Francisco, United States',
+            location: [ 39.3367, 71.0345 ],
+            hobbies: [ 'Coding' ],
+            education: { university: 'california', start: '02-2015', end: '02-2016' }
+        },
+        {
+            _id: ObjectId("64b267b4c648b9effc2d0779"),
+            name: 'Michael Bura',
+            age: 32,
+            city: 'Utah, United States',
+            location: [ 48.8584, 2.2945 ],
+            hobbies: [ 'Writing', 'Dancing' ]
+        },
+        {
+            _id: ObjectId("64b267b4c648b9effc2d077a"),
+            name: 'Michael Baker',
+            age: 39,
+            city: 'San Francisco, United States',
+            location: [ 39.3367, 71.0345 ],
+            hobbies: [ 'Dancing' ],
+            education: { university: 'california', start: '02-2015', end: '02-2016' }
+        }
+    ]
+
+```
+### Insert document
+
+#### - Insert 1 document
+```bash
+    db.collectionName.insertOne(data);
+```
+- Example
+```bash
+
+    db.user.insertOne({ 
+        name: 'Babu', 
+        age: 44, 
+        city: 'Thrissur', 
+        location: [48.3453, 5.32345], 
+        hobies: ['swirming', 'playing'] 
+    });
+```
+
+#### - Insert many document
+```bash
+    db.collectionName.insertMany(Array of data);
+```
+- Example
+```bash
+    db.user.insertMany(
+        [
+            { 
+                name: 'Nina Jekins', 
+                age: '29', 
+                city: 'San Francisco, United States', 
+                location: [40.6892, 74.0445], 
+                hobbies: ['Coding'] 
+            }, 
+            { 
+                name: 'Michael bura', 
+                age: '32', 
+                city: 'Utah, United States', 
+                location: [48.8584, 2.2945], 
+                hobbies: ['Writing', 'Dancing'] 
+            }
+        ]
+    );
+
+```
+
+### Retrieve document
+#### Retrieve all documents
+```bash
+    db.collectionName.find();
+```
+- Example
+```bash
+    db.user.find();
+```
+
+#### Filter documents
+```bash
+    db.collectionName.find(query);
+```
+- Example
+```bash
+    db.user.find({ name: 'Aljith' });
+```
+
+### Update document
+#### Update one document
+```bash
+    db.collectionName.updateOne(<query>, <update>);
+```
+- Example
+```bash
+    db.user.updateOne(
+        { 
+            name: 'Michael bura' 
+        }, 
+        { 
+            $set: {  name: 'Jithu' }
+        }
+    );
+```
+
+#### update multiple documents
+```bash
+    db.collectionName.updateMany(<query>, <update>);
+```
+- Example
+```bash
+    db.user.updateMany(
+        { 
+            name: 'Jithu' 
+        }, 
+        { 
+            $set: {  state: 'Kerala' }
+        }
+    );
+```
+
+
+## 14. Query operators in MongoDB
+ - MongoDB operators are special keywords or symbols that have been made available by MongoDB for the use of developers.
+ - They add additional functionality by allowing developers to write complex queries.
+ - Operators starts with $ sign. 
+
+ ### some of the important operators
+ - $in, $nin, $not
+ - $gt , $lt, $gte, $lte , $eq, $ne
+ - $and, $or
+ - $all, @elemMatch  ( Arrays )
+
+## 15. Embedded document
+- MongoDB allows us to store document within the document.
+- An embedded document looks like :
+```bash
+    {
+        _id: ObjectId("64b267b4c648b9effc2d0778"),
+        name: 'Nina Jekins',
+        age: 29,
+        city: 'San Francisco, United States',
+        location: [ 39.3367, 71.0345 ],
+        hobbies: [ 'Coding' ],
+        education: 
+            { 
+                university: 'california', 
+                start: '02-2015', 
+                end: '02-2016' 
+            }
+    }
+```
+
+### Embedded document has some limitations as well
+- We can only nest up to 100 levels.
+- Document size cannot exceed 16 MB.
+
+### Querying embedded documents
+```bash
+    db.user.find({ 'education.university' : 'calicut' })
+```
+
+## 16. Querying Arrays in MongoDB documents
+#### There are 2 ways in which we can filter.
+1. Exact match
+- We may want to retrieve data by filtering value that is an exact match to an array including order of elements.
+
+```bash
+    db.user.find({ hobbies: ['Dancing', 'Swimming'] })
+```
+
+2. Not Exact match
+- we way want to retrieve data by filtering value that contains specified elements without considering the order
+
+```bash
+    db.user.find({ hobbies: 'Dancing' })
+    db.user.find({ hobbies: { $in:  ['Dancing', 'Swimming'] } })
+    # To retrieve data regardless of order
+    db.user.find({ hobbies:{ $all:  ['Swimming', 'Dancing'] } })
+    db.user.find({ hobbies:{ $all:  ['Dancing', 'Swimming'] } })
+
+```
+
+## 17. Using Query operators with MongoDB arrays
+```bash
+    db.user.find({ location:{$elemMatch: { $gt: 39, $lt: 45 }} })
+```
+- db.user.find({ location:{$elemMatch: { $gt: 39, $lt: 45 }} }): This query uses the $elemMatch operator to specify that the condition should be applied to each element in the "location" array individually. 
+- It matches documents where the "location" array contains at least one element that is greater than 39 and less than 45.
+
+```bash
+    db.user.find({ location: { $gt: 39, $lt: 45 } })
+```
+- db.user.find({ location: { $gt: 39, $lt: 45 } }): This query does not use the $elemMatch operator. Instead, it specifies the condition directly on the "location" field. 
+- However, when using this syntax without $elemMatch, it treats the "location" field as a whole, not individually evaluating each element of the array. 
+- It matches documents where the "location" field itself is greater than 39 and less than 45.
+
+- In summary, the first query checks if any element within the "location" array satisfies the condition, while the second query checks if the "location" field as a whole satisfies the condition.
+
+## 18. MongoDB Projections
+- In MongoDB, projection refers to the process of specifying which fields of a document should be returned in the query results. 
+- It allows you to retrieve only the necessary data, reducing network overhead and improving performance. 
+- By defining a projection, you can include or exclude specific fields from the query results, shaping the structure and content of the returned documents. 
+- This selective retrieval helps optimize resource usage and minimizes data transfer, enabling more efficient data access and manipulation in MongoDB applications.
+
+```bash
+    # To include only name and age
+    db.user.find({ name: 'Lauren Shaw' }, { name: 1, _id: 0, age: 1 });
+
+    # We can't do like this. either both should be inclusion or exclusion (Not for _id)
+    db.user.find({ name: 'Lauren Shaw' }, { name: 1, age: 0 });
+
+    # 1 is for include projection, 0 for exclude projection
+
+
+```
+
+## 19. Working with cursor in MongoDB
+### What is cursor?
+- When ever we use find method we may get list of documents that match the criteria that we specified.
+- However behind the scenes find method returns a pointer which points to the document object of the collection.
+- This pointer is known as cursor.
+- By default cursor prints the output up to 20 documents on the console.
+- If there are more than 20 documents then we may have to press the key to view the results above 20.
+- We can also assign the cursor in to variable and iterate manually.
+
+```bash
+    let cursor = db.user.find();
+
+    while( cursor.hasNext()) { 
+        printjson( cursor.next());
+    }
+    # This is how we can iterate our data inside the cursor.
+```
