@@ -159,6 +159,14 @@ MongoDB leverages memory for various operations:
 
 These internal components play a crucial role in MongoDB's performance, reliability, and scalability. The choice of storage engine impacts data storage and retrieval efficiency, while the flexible data model and memory management techniques contribute to MongoDB's agility and speed.
 
+### When a query is executed in MongoDB, the flow generally follows these steps:
+
+- The query is received by the MongoDB server.
+- The server checks the in-memory cache (working set) to determine if the requested data is available. If found in memory, the server retrieves the data from there, providing faster access.
+- If the data is not in memory, the server accesses the storage engine to retrieve the data from disk. This involves reading the required data blocks from the disk into memory.
+- The server processes the query and performs the necessary operations (e.g., filtering, aggregating) using the data in memory.
+- The query result is sent back to the client.
+
 ## 14. MongoDB Databases
 - A collection in MongoDB is a group of documents.
 - A database is group of collections that exists.
@@ -447,4 +455,107 @@ These internal components play a crucial role in MongoDB's performance, reliabil
         printjson( cursor.next());
     }
     # This is how we can iterate our data inside the cursor.
+```
+
+## 20. Update operators 
+### $currentDate
+- It sets the value of field to current data, either as a date or a timestamp.
+```bash
+    db.users.updateOne({ name: 'Michael Baker'}, {$currentDate: { updatedAt: true}})
+```
+
+### $inc
+- It is used to increment or decrement value of a particular field.
+- We can increment multiple fields as well.
+```bash
+    db.users.updateOne({ name: 'Michael Baker' }, { $inc: { age: -2 } })
+    db.users.updateOne({ name: 'Michael Baker' }, { $inc: { age: 2 } })
+    db.users.updateOne({ name: 'Michael Baker' }, { $inc: { age: 10 } })
+    db.users.updateOne({ name: 'Michael Baker' }, { $inc: { age: 2, score: 10 } })
+
+```
+
+### $min
+- $min is used for if we want to update a value of a field with the minimum value.
+- Means it compare both value ( current value and given value), if the current value is already minimum then it won't update, if the current value is maximum it updates the value of the field with the given value.
+
+```bash
+    Data = {
+                _id: ObjectId("64b38aab7bb900f1bb11a847"),
+                name: 'jithu',
+                age: 17,
+                city: 'Thrissur',
+                location: [ 48.3453, 3.4535 ],
+                hobbies: [ 'Singing', 'Reading' ]
+            }
+
+    db.users.updateOne({ name: 'jithu' }, { $min: { age: 20 }} ); # No change
+    db.users.updateOne({ name: 'jithu' }, { $min: { age: 10 }} ); # It will update
+
+```
+
+### $max
+- $Max updates the value if the given value greater than the current value. 
+```bash    
+    Data = {
+                _id: ObjectId("64b38aab7bb900f1bb11a847"),
+                name: 'jithu',
+                age: 17,
+                city: 'Thrissur',
+                location: [ 48.3453, 3.4535 ],
+                hobbies: [ 'Singing', 'Reading' ]
+            }
+
+    db.users.updateOne({ name: 'jithu' }, { $max: { age: 20 }} ); # It will update
+    db.users.updateOne({ name: 'jithu' }, { $max: { age: 10 }} ); # No change
+
+```
+
+### $mul
+- It is used to update a field with the value which is multiplied value ( current value * given value )
+```bash
+    db.users.updateOne({ name: 'jithu' }, { $mul: { age: 2 }} );
+    # age become 2 * current age
+
+```
+
+### $rename
+- $rename is basically used for rename a specific field.
+```bash
+    db.users.updateOne({ name: 'jithu' }, { $rename: { score: "points" }} );
+    # age become 2 * current age
+
+```
+
+### $unset
+- $unset is used to unset or delete a particular field that exist.
+```bash
+    db.users.updateOne({ name: 'jithu' }, { $unset: { points: 1 }} );
+    # age become 2 * current age
+
+```
+
+## 21. What is upsert option?
+- upsert is used to if we are trying to update a document but if the document doesn't exist it won't update.
+- In this case, we want to create a document if the document is not present 
+then we can use upsert.
+- upsert will create the document if couldn't able to find.
+- If there is no matching results then inserts the document.
+ ```bash
+    db.users.updateOne({ name: 'ivan'}, { $set: { age: 23 } }, { upsert: true } );
+
+ ```
+
+
+## 22. Delete document from MongoDB.
+### Delete a single document from MongoDB
+```bash
+    db.users.deleteOne({ name: 'Michael Baker' });
+    # deleteOne is used to delete one document based on the given criteria
+``` 
+
+### Delete multiple document from MongoDB
+```bash
+    db.users.deleteMany({ age: { $gte: 30 } } );
+    # deleteMany is used to delete multiple documents based on the given criteria.
 ```
