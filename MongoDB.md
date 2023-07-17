@@ -353,7 +353,7 @@ These internal components play a crucial role in MongoDB's performance, reliabil
  - $in, $nin, $not
  - $gt , $lt, $gte, $lte , $eq, $ne
  - $and, $or
- - $all, @elemMatch  ( Arrays )
+ - $all, $elemMatch  ( Arrays )
 
 ## 15. Embedded document
 - MongoDB allows us to store document within the document.
@@ -523,7 +523,7 @@ These internal components play a crucial role in MongoDB's performance, reliabil
 - $rename is basically used for rename a specific field.
 ```bash
     db.users.updateOne({ name: 'jithu' }, { $rename: { score: "points" }} );
-    # age become 2 * current age
+    # the field score renamed to points.
 
 ```
 
@@ -531,7 +531,7 @@ These internal components play a crucial role in MongoDB's performance, reliabil
 - $unset is used to unset or delete a particular field that exist.
 ```bash
     db.users.updateOne({ name: 'jithu' }, { $unset: { points: 1 }} );
-    # age become 2 * current age
+    # the field points removed from the document.
 
 ```
 
@@ -558,4 +558,146 @@ then we can use upsert.
 ```bash
     db.users.deleteMany({ age: { $gte: 30 } } );
     # deleteMany is used to delete multiple documents based on the given criteria.
+```
+
+## 23. What is data modeling?
+- Data modeling is the process of understanding and analyzing our business requirements and then defining structure for our data.
+- This would comprise of how we are defining the structure of data, how our data is stored, and relationships between our data.
+
+## 24. How does data modeling work for relational databases?
+- We define a schema which would dictate how our data is stored.
+- We then normalize our schema to reduce the duplicates or to eliminate redundancy of data.
+
+## 25. Advantages of data modeling with MongoDB
+- Since the schema we are working with is flexible, it does not forces us to define the structure of data at the beginning itself.
+- We as a developer have the leverage of iterating our data model as our application evolves and grows.
+- With MongoDB, we have multiple design options that we can choose from depending on our requirements and needs.
+- Changing the data model later on once our application evolves is very easy, since there is no defined structure or schema that MongoDB has. Remember it's NoSQL database.
+- Flexible structure enables developers to focus on what's important and that is the working of an application.
+
+## 26. Things to remember about the data models.
+- Data modelling is a continuous and iterative process.
+- Data model and schema designs are important when it comes to MongoDB or NoSQL databases.
+
+## 27. Datatypes in MongoDB
+- Double
+- String
+- Integer
+- Boolean 
+- Object ID ( It is used to store document id )
+- Null
+- Array
+- Timestamp
+- Date ( it stores time in Unix time format )
+- Code
+
+## 28. Modeling our database.
+- Before we think about modeling our own database, it is important that we understand our business.
+### Data modeling is a 3 step process.
+1. Evaluate application and requirements.
+2. Defining entities and relationships.
+3. Finalize the data model.
+
+### 1. Evaluate application and requirements.
+#### If our application has not yet launched:
+- We need to understand who will be the stakeholders.
+- What data they would like to see.
+- How frequent will be the access to the data they wish to see?
+- How big is the data in terms of size?
+<br>
+( Here we are keeping in mind the frequency and the size of the data is being accessed )
+
+#### If our application is already live:
+- We need to understand who are the current stakeholders in our system.
+- How are they currently using the data ?
+- What is the frequency and size of the data that they are accessing
+
+#### Getting answers to these questions will help us to understand the following
+- What data is actually important from the system stand point.
+- If any data is important what is the frequency in which it is accessed?
+- Until what date in the past we need to have data for?
+
+### 2. Defining entities and relationships.
+- MongoDB allows data to be stored in 2 ways.
+    1. Embedded
+    2. Linked
+- We can define relationships as below.
+    1. One to One relationships having embedded documents.
+    2. One to Many relationships having embedded documents.
+    3. One to Many relationships having document references.
+
+
+### 3. Finalize the data model.
+- Here we define the model for the database, along with indexes, fields and so on.
+
+## 29. Embedded vs Linked documents
+### Embedded documents.
+- MongoDB follows document approach where there are documents instead of rows as in SQL.
+- Embedded documents are documents where one document is stored inside another document.
+
+```bash
+    {
+        "_id": ObjectId("6123456789abcdef0123456"),
+        "title": "Article Title",
+        "content": "This is the content of the article.",
+        "author": {
+            "name": "John Doe",
+            "email": "johndoe@example.com"
+        },
+        "comments": [
+            {
+            "author": "Jane Smith",
+            "comment": "Great article!"
+            },
+            {
+            "author": "Bob Johnson",
+            "comment": "Well written!"
+            }
+        ]
+    }
+```
+
+### Linked or Referenced documents.
+- Referenced documents are stored in a separate collection with references to each other.
+
+```bash
+    {
+        "_id": ObjectId("6123456789abcdef0123456"),
+        "title": "Article Title",
+        "content": "This is the content of the article.",
+        "author": ObjectId("a123456789abcdef01234567"),
+        "comments": [
+            ObjectId("c123456789abcdef01234567"),
+            ObjectId("c223456789abcdef01234567")
+        ]
+    }
+```
+
+### Considerations
+- If the data is going to be fetched and updated together then it makes sense to embed them.
+- If we will be doing lot of write operations on embedded documents, we should consider storing them as references because this would make things slower.
+- If there is a need for accessing subset of data then we can mix both the approaches.
+- If there are lots of informations being stored as embedded, we might even want to consider referencing.
+
+
+## 30. One to One Relationship.
+- One to one relationship is a type of relationship where in 1 entity is related to exactly instance of another entity and vice versa.
+
+```bash
+    // User document
+    {
+        "_id": ObjectId("6123456789abcdef0123456"),
+        "name": "John Doe",
+        "email": "johndoe@example.com",
+        "profileId": ObjectId("7123456789abcdef0123456")
+    }
+
+    // Profile document
+    {
+        "_id": ObjectId("7123456789abcdef0123456"),
+        "dob": "1990-01-01",
+        "address": "123 Main Street",
+        "city": "New York",
+        "country": "USA"
+    }
 ```
