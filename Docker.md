@@ -11,27 +11,39 @@ Docker is a containerization platform that simplifies application deployment and
 
 3. What are containers?
 
-4. Why do we need Docker?
+4. What is docker daemon?
 
-5. What can it do?
+5. Docker architecture
 
-6. Run docker containers
+6. Why do we need Docker?
 
-7. What is an image
+7. What can it do?
 
-8. Create a docker image
+8. Run docker containers
 
-9. Networks in docker
+9. What is an image
 
-10. Docker compose
+10. Docker commands
 
-11. Docker concepts in depth
+11. Flags
 
-12. Docker for windows/mac
+12. Create a docker image
 
-13. Docker swarm
+13. Docker compose
 
-14. Docker vs Kubernetes
+14. Docker registry
+
+15. Docker engine
+
+16. Docker networking
+
+17. Container orchestration
+
+18. Docker swarm
+
+19. Kubernetes
+
+
 
 
  <hr>
@@ -55,6 +67,16 @@ Docker is a containerization platform that simplifies application deployment and
 
 - <b>Collaboration:</b>  Docker enables teams to work collaboratively on applications by providing a standardized and reproducible environment. It ensures that developers, testers, and operators are all working with the same application configuration, making it easier to share and reproduce issues across different stages of the development lifecycle.
 
+
+## 3. What are Containers?
+
+- Containers are like lightweight, self-contained packages that hold everything needed to run a specific application or service, including the code, runtime, libraries, and system tools. 
+- They provide a consistent and isolated environment, making it easier to deploy, manage, and move applications across different systems without worrying about conflicts or dependencies.
+- Containers are running instances of images that are isolated and have their own environments and set of process.
+- A container only lives as long as the process inside it is alive,
+if the web service inside the container is stopped or crashed then the container exits.
+- The advantage of containers is that it requires very less resources.
+
 ## 4. What is Docker daemon?
 - Docker daemon runs on the host operating system.
 - It is responsible for running containers to manage docker services.
@@ -76,38 +98,29 @@ Docker follows Client-Server architecture, which includes the three main compone
 
   - Private Registry - It is used to share images within the enterprise.
 
-## 6. What are Containers?
-
-- Containers are like lightweight, self-contained packages that hold everything needed to run a specific application or service, including the code, runtime, libraries, and system tools. 
-- They provide a consistent and isolated environment, making it easier to deploy, manage, and move applications across different systems without worrying about conflicts or dependencies.
-- Containers are running instances of images that are isolated and have their own environments and set of process.
-- A container only lives as long as the process inside it is alive,
-if the web service inside the container is stopped or crashed then the container exits.
-- The advantage of containers is that it requires very less resources.
-
-## 7. Why do we need Docker?
+## 6. Why do we need Docker?
 
 - Containers are like lightweight, self-contained packages that hold everything needed to run a specific application or service, including the code, runtime, libraries, and system tools. 
 - They provide a consistent and isolated environment, making it easier to deploy, manage, and move applications across different systems without worrying about conflicts or dependencies.
 - It allow us to get rid of the matrix from hell !!
 
-## 8. What can it do?
+## 7. What can it do?
 
 - Containerize Applications
 - Run each service with its own dependencies in separate containers.
 
-## 9. Run docker containers
+## 8. Run docker containers
 
 ```bash
   docker run <image_name>
 ```
 
-## 10. What is an image?
+## 9. What is an image?
 - Docker images are the read-only binary templates used to create Docker Containers.
 - A docker image is a template or blueprint for creating containers. It is a self-contained package that includes everything needed to run a specific application, such as the code, dependencies, libraries, and configurations. 
 - An image is created from a set of instructions called a Dockerfile, and it serves as a portable and reproducible unit that can be used to create and run multiple instances of containers with consistent behavior and environment.
 
-## 11. Docker commands
+## 1. Docker commands
 ### - docker run 
 It is used to run or start a container from an docker image.
 ```bash
@@ -176,12 +189,12 @@ It is used to see additional details about a specific container.
 ```
 
 ### - docker logs
-It is used to view the logs of a perticular container.
+It is used to view the logs of a particular container.
 ```bash
   docker logs <container-id> 
 ```
 
-## 12. Flags
+## 11. Flags
 
 ### flag -i
 - The -i flag stands for interactive mode.
@@ -209,7 +222,7 @@ It is used to view the logs of a perticular container.
 - When we run a container it will have an internal IP, it is only accessible within the docker host. 
 - Since this is an internal IP user from outside of the docker host cannot access it.
 - To access this server you must have mapped the port inside the docker container to a free port in the docker host.
-- Doing so you are able to access that perticular server by using the mapped port.
+- Doing so you are able to access that particular server by using the mapped port.
 - This way you can run multiple instances of your application and map them to different ports on the docker host.
 ```bash
   docker run -p 8000:5000 <app-name>
@@ -224,7 +237,7 @@ It is used to view the logs of a perticular container.
 ```bash
   docker run -v /opt/datadir:/var/lib/mysql mysql
 ```
-## 13. Create a Docker image
+## 12. Create a Docker image
 To create a docker image of an application you need to follow certain steps
 
 ```bash
@@ -262,7 +275,7 @@ Create a .dockerignore file in the same directory as your Dockerfile with follow
   npm-debug.log
 ```
 
-## 14. Docker Compose
+## 13. Docker Compose
 - If we needed to setup a complex application running multiple services, a better way to do it using docker compose.
 - With docker compose we can create a configuration file in YAML format called docker-compose.yml and put different services together and options specific to running them in the file.
 - Then we can simply run docker-compose up command to bring up the entire application stack.
@@ -300,11 +313,11 @@ docker-compose.yml
 
 ```
 
-## 15. Docker Registry
+## 14. Docker Registry
 - A Docker registry is a system for storing and distributing Docker images with specific names. There may be several versions of the same image, each with its own set of tags.
 - It is an essential repository for docker images
 
-## 16. Docker Engine
+## 15. Docker Engine
 - Docker engine, it's simply refered to host with docker installed on it.
 - When we install docker on a linux host, we are actually installing 3 different components.
   ### 1. Docker deamon
@@ -315,7 +328,7 @@ docker-compose.yml
   - The Docker CLI is the commandline interface that we have been using to perform actions such as running a container, stopping a container, destroying images etc.
   - It uses the REST API to interact with the docker deamon.
 
-## 17. Docker Networking
+## 16. Docker Networking
 
 - Docker networking allows containers to communicate with each other and with the external world by providing a range of networking options. 
 - It enables seamless connectivity and facilitates data exchange between containers, enables container access to shared networks and services, and allows containers to be exposed on specific ports for external access, all while providing isolation and security.
@@ -339,7 +352,7 @@ docker-compose.yml
 - It means the container uses the host's network interface, and network services running on the host can be accessed directly from the container. 
 - In this mode, containers do not have their own network namespace.
 
-## 18. Container Orchestration
+## 17. Container Orchestration
 ### Problem
 - With docker we can run a single instance of the application with a simple docker run command. but it's just 1 instance of our application on 1 docker host.
 - What happens if the number of users increse and the instance is no longer able to handle the load. then we add additional instance of the application by running docker run command multiple time. That is something we have to do ourself.  
@@ -370,14 +383,14 @@ docker-compose.yml
     - Kubernetes from google
     - Mesos from apache
 
-## 19. Docker Swarm
+## 18. Docker Swarm
 - With docker swarm we could now combine multiple docker machines together into a single cluster.
 - Docker will take care of distributing our services or our application instances into separate hosts for high availabilty and for load balancing across different systems and hardware.
 - to set up a docker swarm, we must first have hosts or multiple hosts with docker installed on them.
 - Then we must designate one host to be the manager or the master or it's the swarm manager as it is called and others as slaves or workers.
 - Once we done with that, run the  docker swarm init command on the swarm manager and that initialize the swarm manager.
 
-## 20. Kubernetes
+## 19. Kubernetes
 - With docker, we were able to run a single instance of an application using the docker CLI by running the docker run command. 
 - With kubernetes, using the kubernetes CLI known as kube control, we can run a 1000 instance of the same application with a single command.
 ```bash
