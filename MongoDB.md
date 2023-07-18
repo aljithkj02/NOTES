@@ -1,6 +1,70 @@
 # Mongod DB
+MongoDB is a popular NoSQL database that stores and manages data in a flexible, document-oriented format, making it easy to work with dynamic and evolving data structures.
+## Roadmap
 
+1. Installation
 
+2. What is database?
+
+3. How would we access data?
+
+4. What is DBMS?
+
+5. Different type of databases
+
+6. Relational databases
+
+7. Non-Relational databases
+
+8. Relationships and Normalization
+
+9. What is MongodDB?
+
+10. MongoDB Features:
+
+11. MongoDB Benefits:
+
+12. NoSQL vs SQL
+
+13. BSON and JSON
+
+14. How does MongoDB work?
+
+15. MongoDB Databases
+
+16. Query operators in MongoDB
+
+17. Embedded document
+
+18. Querying Arrays in MongoDB documents
+
+19. Using Query operators with MongoDB arrays
+
+20. MongoDB Projections
+
+21. Working with cursor in MongoDB
+
+22. Update operators 
+
+23. What is upsert option?
+
+24. Delete document from MongoDB.
+
+25. What is data modeling?
+
+26. How does data modeling work for relational databases?
+
+27. Advantages of data modeling with MongoDB
+
+28. Things to remember about the data models.
+
+29. Datatypes in MongoDB
+
+30. Modeling our database.
+
+31. Embedded vs Linked documents
+
+32. One to One Relationship.
 
 
 ## 1. Installation
@@ -94,7 +158,7 @@ There are 2 types of databases.
 - MongoDB provides an inbuilt load-balancing mechanism that helps manage high traffic.
 
 
-## 10. MongoDB Benefits:
+## 11. MongoDB Benefits:
 ### FLEXIBLE
 - One of the major benefits of using MongoDB is flexibility in terms of data storage.
 - As I mentioned, that MongoDB follows a schema-less approach to storing data, This enables developers to iterate faster and not worry too much about the structure.
@@ -109,7 +173,7 @@ There are 2 types of databases.
 - MongoDB make sure that they offer an amazing experience to all the developers.
 - MongoDB has drivers that support popular programming languages like C, C#, C++, Python, java, Node JS, and more along with comprehensive documentation making it easy to use.
 
-## 11. NoSQL vs SQL
+## 12. NoSQL vs SQL
 
 |           | SQL                                             | NoSQL                                           |
 |-----------|-------------------------------------------------|-------------------------------------------------|
@@ -120,7 +184,7 @@ There are 2 types of databases.
 | Scaling   | Enables vertical scaling. Vertical scaling involves increasing the capacity of the server to a more powerful one. | Enables horizontal scaling, where the database is scaled across different servers. |
 
 
-## 12. BSON and JSON
+## 13. BSON and JSON
 - MongoDB is not using instead it is using BSON ( JSON like format )
 - BSON means Binary JSON
 
@@ -133,7 +197,7 @@ There are 2 types of databases.
 - BSON format is used by MongoDB to work with data both internally and over the network.
 - Drivers are responsible to convert data into BSON format that MongoDB can use and vice versa.
 
-## 13. How does MongoDB work?
+## 14. How does MongoDB work?
 
 ### Storage Engine
 
@@ -167,7 +231,7 @@ These internal components play a crucial role in MongoDB's performance, reliabil
 - The server processes the query and performs the necessary operations (e.g., filtering, aggregating) using the data in memory.
 - The query result is sent back to the client.
 
-## 14. MongoDB Databases
+## 15. MongoDB Databases
 - A collection in MongoDB is a group of documents.
 - A database is group of collections that exists.
 
@@ -344,7 +408,7 @@ These internal components play a crucial role in MongoDB's performance, reliabil
 ```
 
 
-## 14. Query operators in MongoDB
+## 16. Query operators in MongoDB
  - MongoDB operators are special keywords or symbols that have been made available by MongoDB for the use of developers.
  - They add additional functionality by allowing developers to write complex queries.
  - Operators starts with $ sign. 
@@ -355,7 +419,7 @@ These internal components play a crucial role in MongoDB's performance, reliabil
  - $and, $or
  - $all, $elemMatch  ( Arrays )
 
-## 15. Embedded document
+## 17. Embedded document
 - MongoDB allows us to store document within the document.
 - An embedded document looks like :
 ```bash
@@ -384,7 +448,7 @@ These internal components play a crucial role in MongoDB's performance, reliabil
     db.user.find({ 'education.university' : 'calicut' })
 ```
 
-## 16. Querying Arrays in MongoDB documents
+## 18. Querying Arrays in MongoDB documents
 #### There are 2 ways in which we can filter.
 1. Exact match
 - We may want to retrieve data by filtering value that is an exact match to an array including order of elements.
@@ -405,7 +469,7 @@ These internal components play a crucial role in MongoDB's performance, reliabil
 
 ```
 
-## 17. Using Query operators with MongoDB arrays
+## 19. Using Query operators with MongoDB arrays
 ```bash
     db.user.find({ location:{$elemMatch: { $gt: 39, $lt: 45 }} })
 ```
@@ -421,7 +485,7 @@ These internal components play a crucial role in MongoDB's performance, reliabil
 
 - In summary, the first query checks if any element within the "location" array satisfies the condition, while the second query checks if the "location" field as a whole satisfies the condition.
 
-## 18. MongoDB Projections
+## 20. MongoDB Projections
 - In MongoDB, projection refers to the process of specifying which fields of a document should be returned in the query results. 
 - It allows you to retrieve only the necessary data, reducing network overhead and improving performance. 
 - By defining a projection, you can include or exclude specific fields from the query results, shaping the structure and content of the returned documents. 
@@ -439,7 +503,7 @@ These internal components play a crucial role in MongoDB's performance, reliabil
 
 ```
 
-## 19. Working with cursor in MongoDB
+## 21. Working with cursor in MongoDB
 ### What is cursor?
 - When ever we use find method we may get list of documents that match the criteria that we specified.
 - However behind the scenes find method returns a pointer which points to the document object of the collection.
@@ -457,7 +521,7 @@ These internal components play a crucial role in MongoDB's performance, reliabil
     # This is how we can iterate our data inside the cursor.
 ```
 
-## 20. Update operators 
+## 22. Update operators 
 ### $currentDate
 - It sets the value of field to current data, either as a date or a timestamp.
 ```bash
@@ -535,7 +599,7 @@ These internal components play a crucial role in MongoDB's performance, reliabil
 
 ```
 
-## 21. What is upsert option?
+## 23. What is upsert option?
 - upsert is used to if we are trying to update a document but if the document doesn't exist it won't update.
 - In this case, we want to create a document if the document is not present 
 then we can use upsert.
@@ -547,7 +611,7 @@ then we can use upsert.
  ```
 
 
-## 22. Delete document from MongoDB.
+## 24. Delete document from MongoDB.
 ### Delete a single document from MongoDB
 ```bash
     db.users.deleteOne({ name: 'Michael Baker' });
@@ -560,26 +624,26 @@ then we can use upsert.
     # deleteMany is used to delete multiple documents based on the given criteria.
 ```
 
-## 23. What is data modeling?
+## 25. What is data modeling?
 - Data modeling is the process of understanding and analyzing our business requirements and then defining structure for our data.
 - This would comprise of how we are defining the structure of data, how our data is stored, and relationships between our data.
 
-## 24. How does data modeling work for relational databases?
+## 26. How does data modeling work for relational databases?
 - We define a schema which would dictate how our data is stored.
 - We then normalize our schema to reduce the duplicates or to eliminate redundancy of data.
 
-## 25. Advantages of data modeling with MongoDB
+## 27. Advantages of data modeling with MongoDB
 - Since the schema we are working with is flexible, it does not forces us to define the structure of data at the beginning itself.
 - We as a developer have the leverage of iterating our data model as our application evolves and grows.
 - With MongoDB, we have multiple design options that we can choose from depending on our requirements and needs.
 - Changing the data model later on once our application evolves is very easy, since there is no defined structure or schema that MongoDB has. Remember it's NoSQL database.
 - Flexible structure enables developers to focus on what's important and that is the working of an application.
 
-## 26. Things to remember about the data models.
+## 28. Things to remember about the data models.
 - Data modelling is a continuous and iterative process.
 - Data model and schema designs are important when it comes to MongoDB or NoSQL databases.
 
-## 27. Datatypes in MongoDB
+## 29. Datatypes in MongoDB
 - Double
 - String
 - Integer
@@ -591,7 +655,7 @@ then we can use upsert.
 - Date ( it stores time in Unix time format )
 - Code
 
-## 28. Modeling our database.
+## 30. Modeling our database.
 - Before we think about modeling our own database, it is important that we understand our business.
 ### Data modeling is a 3 step process.
 1. Evaluate application and requirements.
@@ -630,7 +694,7 @@ then we can use upsert.
 ### 3. Finalize the data model.
 - Here we define the model for the database, along with indexes, fields and so on.
 
-## 29. Embedded vs Linked documents
+## 31. Embedded vs Linked documents
 ### Embedded documents.
 - MongoDB follows document approach where there are documents instead of rows as in SQL.
 - Embedded documents are documents where one document is stored inside another document.
@@ -680,7 +744,7 @@ then we can use upsert.
 - If there are lots of informations being stored as embedded, we might even want to consider referencing.
 
 
-## 30. One to One Relationship.
+## 32. One to One Relationship.
 - One to one relationship is a type of relationship where in 1 entity is related to exactly instance of another entity and vice versa.
 
 ```bash
