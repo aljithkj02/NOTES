@@ -710,12 +710,12 @@ then we can use upsert.
         },
         "comments": [
             {
-            "author": "Jane Smith",
-            "comment": "Great article!"
+                "author": "Jane Smith",
+                "comment": "Great article!"
             },
             {
-            "author": "Bob Johnson",
-            "comment": "Well written!"
+                "author": "Bob Johnson",
+                "comment": "Well written!"
             }
         ]
     }
