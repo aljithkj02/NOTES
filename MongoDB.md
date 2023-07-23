@@ -684,7 +684,7 @@ then we can use upsert.
 ### 2. Defining entities and relationships.
 - MongoDB allows data to be stored in 2 ways.
     1. Embedded
-    2. Linked
+    2. Linked   
 - We can define relationships as below.
     1. One to One relationships having embedded documents.
     2. One to Many relationships having embedded documents.
@@ -765,3 +765,499 @@ then we can use upsert.
         "country": "USA"
     }
 ```
+
+## 33. One to Many Relationships
+- A One to Many relationship is a type of relationship when one entity has one or many related data with other entity.
+
+```bash
+    # User document
+    {
+        "_id": "615c1d7889a3b6b08425a7a1",
+        "username": "JohnDoe",
+        "email": "john@example.com",
+        "posts": [
+            "615c1d7889a3b6b08425a7a2",
+            "615c1d7889a3b6b08425a7a3"
+        ]
+    }
+
+    // First Post Document
+    {
+        "_id": "615c1d7889a3b6b08425a7a2",
+        "title": "First Blog Post",
+        "content": "This is my first blog post!",
+        "author": "615c1d7889a3b6b08425a7a1" 
+    }
+
+    // Second Post Document
+    {
+        "_id": "615c1d7889a3b6b08425a7a3",
+        "title": "Second Blog Post",
+        "content": "Another exciting blog post!",
+        "author": "615c1d7889a3b6b08425a7a1" 
+    }
+```
+
+## 33. Aggregation in MongoDB?
+- Aggregation means processing multiple documents in a collection to get computed results.
+- Aggregation is very useful, when we have lot of data stored and we wished to process it.
+- If we want to get a list of users for a particular query we may use find.
+- But if we want to get list of users along with the count, in that case we will have to use aggregation.
+
+## 34. Aggregation framework.
+- While find() has its own use-case, MongoDB has an aggregation framework that allows developers to get aggregated results.
+- It provides an aggregate() method using which we can get computed results.
+- The aggregation framework breaks logic into simpler parts and processes each part one by one.
+- This might resemble a waterfall model where the out of one stage is given as input to the next stage.
+- The MongoDB Aggregation Framework is a powerful feature that allows users to perform data processing and transformation operations on documents within a collection. It offers a set of stages, such as $match, $group, $sort, $project, etc., that can be combined to create complex data pipelines for data analysis, reporting, and business intelligence tasks.
+
+## 35. What is an aggregation pipeline?
+- the aggregation pipeline in MongoDB is a powerful framework that allows you to process and transform data in a step-by-step manner. 
+- It's like an assembly line for data, where each stage performs a specific operation on the data and passes it to the next stage until the final result is obtained.
+
+```bash
+    db.users.aggregate( [ { $match: { age: { $lt: 25 } } }, { $group: { _id: "$city", totalUsers: { $sum: 1} } } ] )
+    # $match filter the data first and pass the data to $group
+    # Hers $sum is an accumulator that is used when data is grouped together
+```
+
+### The primary reasons for using MongoDB aggregation framework.
+1. Data Transformation: The Aggregation Framework enables you to transform and reshape data in various ways. You can perform calculations, extract specific fields, group data, and even create entirely new documents based on the existing data.
+
+2. Aggregations and Analytics: It is an essential tool for performing various types of aggregations, such as sum, average, count, min, max, etc., to derive meaningful insights from the data.
+
+3. Flexibility: The Aggregation Framework is quite flexible and can handle complex data processing tasks. It allows you to chain multiple stages together in a pipeline to achieve sophisticated data transformations and analysis.
+
+4. Performance: In many cases, using the Aggregation Framework is more efficient and faster than retrieving all the data and processing it on the client-side. It can leverage MongoDB's indexing capabilities and optimize the execution of the aggregation pipeline.
+
+5. Reduced Network Traffic: By using the Aggregation Framework, you can reduce the amount of data transferred over the network, as you can perform data operations directly on the server side.
+
+6. Real-time Reporting: The Aggregation Framework can be very useful for generating real-time reports and summaries of data stored in MongoDB collections.
+
+### $match
+- This is one of the stage, which is responsible for filter the data according to the criteria.
+
+```bash
+    db.users.aggregate( [ { $match: { age: { $lt: 25 } } } ] )
+
+    db.users.find({ age: { $lt: 25 }})
+
+    # These 2 queries will return same data
+```
+
+#### There are multiple stage operators are exist
+| Aggregation Stage | Description                                                   |
+|-------------------|---------------------------------------------------------------|
+| $match            | Filters documents that are needed for the next stage.        |
+| $group            | Groups documents based on the specified field(s).            |
+| $sort             | Sorts the documents in the specified order.                  |
+| $project          | Selects specified fields to display in the output.           |
+| $skip             | Skips a specified number of documents.                       |
+| $limit            | Limits the number of documents in the output.                |
+| $out              | Writes the resulting documents to a new collection.          |
+| $unwind           | Unwinds arrays into individual documents.                    |
+
+
+#### There are multiple accumulators as well
+| Aggregation Stage | Description                                                   |
+|-------------------|---------------------------------------------------------------|
+| $match            | Filters documents that are needed for the next stage.        |
+| $group            | Groups documents based on the specified field(s).            |
+| $sort             | Sorts the documents in the specified order.                  |
+| $project          | Selects specified fields to display in the output.           |
+| $skip             | Skips a specified number of documents.                       |
+| $limit            | Limits the number of documents in the output.                |
+| $out              | Writes the resulting documents to a new collection.          |
+| $unwind           | Unwinds arrays into individual documents.                    |
+| $sum              | Returns the calculated sum of the specified value from all documents.   |
+| $avg              | Returns the calculated average of the specified value from all documents.   |
+| $count            | Returns the count of documents in the aggregation pipeline. |
+| $min              | Returns the minimum value of the specified field from all documents.     |
+| $max              | Returns the maximum value of the specified field from all documents.     |
+| $first            | Returns the first document from the group.                   |
+| $last             | Returns the last document from the group.                    |
+
+## 36. Operators in aggregators
+- $sum
+```bash
+    db.users.aggregate([ { $group: { _id: '$city', totalAge: { $sum: '$age'}}}])
+    # To get sum of ages city wise
+
+    # output
+    [
+        { _id: 'San Jose, United States', totalAge: 23 },
+        { _id: 'San Francisco, United States', totalAge: 29 },
+        { _id: 'New Jersey, United States', totalAge: 20 },
+        { _id: 'Las Vegas, United States', totalAge: 44 },
+        { _id: 'New York, United States', totalAge: 25 }
+    ]
+
+```
+
+- $avg
+
+```bash
+    db.users.aggregate([{ $group: { _id: '$city', average: { $avg: '$age' } } }])
+    # To get average of ages city wise
+```
+
+#### For practice use this data
+```bash
+[
+    {
+    _id: ObjectId("63b50a86c7751e99599c63f7"),
+    name: 'Deborah Allen',
+    age: 22,
+    city: 'Las Vegas, United States',
+    location: [ 40.8584, 1.2945 ],
+    hobbies: [ 'Swimming', 'Painting' ],
+    lastApplication: ISODate("2022-08-15T09:05:00.000Z")
+  },
+  {
+    _id: ObjectId("63b50a86c7751e99599c63f8"),
+    name: 'Angela Perez',
+    age: 25,
+    city: 'New York, United States',
+    location: [ 31.4782, 1.2245 ],
+    hobbies: [ 'Woodworking', 'Reading' ],
+    lastApplication: ISODate("2019-05-15T09:05:00.000Z")
+  },
+  {
+    _id: ObjectId("63b50a86c7751e99599c63f9"),
+    name: 'Michael Dsouza',
+    age: 23,
+    city: 'San Jose, United States',
+    location: [ 40.6892, 74.0445 ],
+    hobbies: [ 'Dancing' ],
+    education: {
+      university: 'Calfornia university',
+      start: '02-2015',
+      end: '02-2016',
+      degree: 'BBA'
+    },
+    lastApplication: ISODate("2022-03-15T09:05:00.000Z")
+  },
+  {
+    _id: ObjectId("63b50a86c7751e99599c63fa"),
+    name: 'Lauren Shaw',
+    age: 20,
+    city: 'New Jersey, United States',
+    location: [ 21.3387, 36.7645 ],
+    hobbies: [ 'Cooking' ],
+    lastApplication: ISODate("2022-04-15T09:05:00.000Z")
+  },
+  {
+    _id: ObjectId("63b50a86c7751e99599c63fb"),
+    name: 'Lewis Fisher',
+    age: 33,
+    city: 'San Jose, United States',
+    location: [ 40.6892, 74.0445 ],
+    hobbies: [ 'Dancing' ],
+    education: {
+      university: 'Calfornia university',
+      start: '02-2015',
+      end: '02-2016',
+      degree: 'BBA'
+    },
+    lastApplication: ISODate("2020-02-15T09:05:00.000Z")
+  },
+  {
+    _id: ObjectId("63b50a86c7751e99599c63fc"),
+    name: 'Nina Jekins',
+    age: 29,
+    city: 'San Francisco, United States',
+    location: [ 39.3367, 71.0345 ],
+    hobbies: [ 'Coding' ],
+    lastApplication: ISODate("2022-06-15T09:05:00.000Z")
+  },
+  {
+    _id: ObjectId("63b50a86c7751e99599c63fd"),
+    name: 'Michael Bura',
+    age: 32,
+    city: 'Utah, United States',
+    location: [ 48.8584, 2.2945 ],
+    hobbies: [ 'Writing', 'Dancing' ],
+    lastApplication: ISODate("2020-08-15T09:05:00.000Z")
+  },
+  {
+    _id: ObjectId("63b50a86c7751e99599c63fe"),
+    name: 'Michael Baker',
+    age: 39,
+    city: 'San Francisco, United States',
+    location: [ 39.3367, 71.0345 ],
+    hobbies: [ 'Dancing' ],
+    lastApplication: ISODate("2022-04-15T09:05:00.000Z")
+  },
+  {
+    _id: ObjectId("63b50efcc7751e99599c6400"),
+    name: 'Tim Johnson',
+    age: 34,
+    city: 'San Jose, United States',
+    location: [ 40.6892, 74.0445 ],
+    hobbies: [ 'Dancing', 'Swimming' ],
+    education: {
+      university: 'Calfornia university',
+      start: '02-2015',
+      end: '02-2016',
+      degree: 'BBA'
+    },
+    lastApplication: ISODate("2022-01-15T09:05:00.000Z")
+  }
+]
+```
+
+
+- $first
+```bash
+    # We want to get the date of the first job application received from certain city
+    db.users.aggregate([{$group: { _id: '$city', firstApplication: { $first: '$lastApplication'}}}])
+
+    # In this case we won't get the first application based on the exact date or time for that we have to sort the field.
+
+    db.users.aggregate([{ $sort: { lastApplication: 1 } }, { $group: { _id: '$city', firstApplication: { $first: '$lastApplication' } } }])
+
+```
+
+- $last
+```bash
+    db.users.aggregate([{ $sort: { lastApplication: -1 } }, { $group: { _id: '$city', firstApplication: { $last: '$lastApplication' } } }])
+```
+
+- $project
+```bash
+    db.users.aggregate([{ $project: { name: 1, age: 1 }}, { $match: { age: { $lt: 30 }}}] );
+    # $project is used to exclude or include certain fields.
+
+    db.users.aggregate([{ $project: { appliedMonth: { $month: '$lastApplication' }}}])
+    # To get, in which month the user applied for the job.
+
+    db.users.aggregate([{ $project: { appliedMonth: { $month: '$lastApplication' }, appliedYear: { $year: '$lastApplication'}}}])
+    # To get, in which year the user applied for the job.
+
+    db.users.aggregate([{ $project: { name: 1, appliedMonth: { $month: '$lastApplication'}} }, { $group: { _id: { appliedMonth: '$appliedMonth'}, count: {$sum: 1} }}])
+    # To get the count of users who applied for the job in the same month.
+
+    db.users.aggregate([{ $match: {city: 'San Jose, United States'} }, { $project: { city: 1, appliedYear: {$year: '$lastApplication'} }}, { $group: { _id: { appliedYear: '$appliedYear'}, count: { $sum: 1}}}])
+    # To get the count of users who applied for job in a particular year from a particular place.
+
+    # Output look like this
+    [
+        { _id: { appliedYear: 2022 }, count: 2 },
+        { _id: { appliedYear: 2020 }, count: 1 }
+    ]
+
+
+    db.users.aggregate([{ $match: {city: 'San Jose, United States'} }, { $project: { city: 1, appliedMonth: {$month: '$lastApplication'} }}, { $group: { _id: { appliedMonth: '$appliedMonth'}, count: { $sum: 1}}}])
+    # To get the count of users who applied for job in a particular month from a particular place.
+
+    # Output look like this
+    [
+        { _id: { appliedMonth: 2 }, count: 1 },
+        { _id: { appliedMonth: 1 }, count: 1 },
+        { _id: { appliedMonth: 3 }, count: 1 }
+    ]
+
+```
+
+```bash
+    db.users.aggregate([{ $project: { year: {$year: '$lastApplication'} } }, { $group: { _id: { year: '$year'}, count: {$sum: 1} }}]);
+    # To get the stats of users who applied the job in a particular year.
+
+    # Output look like this
+    [
+        { _id: { year: 2020 }, count: 2 },
+        { _id: { year: 2022 }, count: 6 },
+        { _id: { year: 2019 }, count: 1 }
+    ]
+
+    db.users.aggregate([{ $project: { year: {$year: '$lastApplication'}, month: { $month: '$lastApplication'} } }, {$match: { year: 2022 }}, { $group: { _id: { month: '$month'}, count: {$sum: 1} }}])
+    # To get the stats of users who applied the job in a particular month in the specified year.
+
+    # Output look like this
+    [
+        { _id: { month: 6 }, count: 1 },
+        { _id: { month: 1 }, count: 1 },
+        { _id: { month: 4 }, count: 2 },
+        { _id: { month: 3 }, count: 1 },
+        { _id: { month: 8 }, count: 1 }
+    ]   
+
+```
+
+- $limit
+```bash
+    db.users.aggregate([{ $group: { _id: '$city', totalUsers: { $sum: 1}}}, { $sort: { totalUsers: -1}}, { $limit: 3}])
+    # To get the top 3 cities having highest users available.
+```
+
+- $skip
+```bash
+    db.users.aggregate([{ $group: { _id: '$city', totalUsers: { $sum: 1}}}, { $sort: { totalUsers: -1}}, { $skip: 3}])
+    # To get the top cities having highest users available except the first 3
+```
+
+## 37. $lookup
+- $lookup is a powerful stage using which we can combine the information of 2 collection.
+- If you are coming from SQL background you can think of lookup as left out join.
+- With lookup we will get all the fields from the left of the collection, with the matching entries on the right of the collection.
+
+```bash
+    # Syntax
+    {
+        $lookup: {
+            from: <Collection to join>,
+            localField: <field from the input documents>,
+            foreignField: <field from the documents of the 'from' collection>,
+            as: <output array field'
+        }
+    }
+
+    # Example
+    { 
+        $lookup: { 
+            from: 'fairs', 
+            localField: 'city', 
+            foreignField: 'location', 
+            as: 'fairInfo' 
+        } 
+    }
+```
+
+```bash
+    db.users.aggregate({ $lookup: { from: 'fairs', localField: 'city', foreignField: 'location', as: 'fairsDoc' } })
+
+    # This is how 1 document looks like
+    {
+        _id: ObjectId("63b50efcc7751e99599c6400"),
+        name: 'Tim Johnson',
+        age: 34,
+        city: 'San Jose, United States',
+        location: [ 40.6892, 74.0445 ],
+        hobbies: [ 'Dancing', 'Swimming' ],
+        education: {
+            university: 'Calfornia university',
+            start: '02-2015',
+            end: '02-2016',
+            degree: 'BBA'
+        },
+        lastApplication: ISODate("2022-01-15T09:05:00.000Z"),
+        fairsDoc: [
+            {
+                _id: ObjectId("64bcb3673601f743752b16a7"),
+                name: 'California Fair',
+                location: 'San Jose, United States',
+                type: 'Open to all',
+                date: ISODate("2022-08-15T09:05:00.000Z")
+            }
+        ]
+    }
+
+```
+
+### Something we have to notice while using $lookup
+- The 'from' collection that is specified has to be in the same database on which we are running the aggregation.
+- The values in 'localfield' and 'foreignfield' are matched basis of equality.
+- The 'as' we specify should be a valid document name.
+- if any value pre-exist in the name we specified in the document then that field will be overridden.
+
+## 38. $out
+- $out is a stage in aggregation which allows us to create a new collection from the existing one.
+- What it does is it will take the copy of all the records from the current collection and create a new collection with the copied documents
+- basically it creates a duplicated collection.
+
+```bash
+    # syntax
+    {
+        $out: <new collection name>
+    }
+
+    # Example
+    db.users.aggregate({ $out: 'temp' });
+    # If the collection already exist with the name temp, in that case it replace the data with the new data.
+
+    db.users.aggregate({ $match: { _id: ObjectId("63b50efcc7751e99599c6400")}}, { $out: 'temp' } );
+    # To create a new collection with the filtered document 
+
+```
+
+### How can we specify collection to be created  in  new database?
+```bash
+    # Syntax
+    {
+        $out: {
+            db: <"output db">,
+            coll: <"output collection">
+        }
+    }
+
+    # Example
+    db.users.aggregate({ $out: { db: 'tempDB', coll: 'temp' } }); 
+
+```
+
+## 39. Evaluating query performance in MongoDB
+### MongoDB provides a method called 'explain'
+- This method enables us to see the performance of a query
+- And this method provide some stats which enables us to check how much work our query did.
+
+```bash
+    db.indexDemo.explain().find({ name: 'Elvin_0'})
+
+```
+### There are different mode in which we can run explain
+#### 1. execution stats mode
+- it gives us some more information around the parameters and what exactly this query did.
+
+```bash
+db.indexDemo.explain('executionStats').find({ name: 'Elvin_0'})
+
+```
+
+## 40. What is indexing?
+- A real world database will usually consist of lots of data around our application.
+- With lots of data it is important that we should be able to quickly find the result that we need.
+
+```bash
+    # Query
+    db.users.find({ name: 'Elvin_0' })
+
+    # stats
+    docsExamined: 20000
+```
+- In the above scenario to find a user by name it iterated over the database 20k times. which is not an ideal way to find it.
+- If the database size increases our queries will become super slow.
+- How do we solve this problem ? well using indexes.
+
+### Indexes
+- Indexes organize the data in such a way that they are ordered, making it easier to retrieve and work with.
+
+### How does indexes work
+- Index behind the scene stored as a separate object, which can be used to query data.
+- Indexes do not modify the order of the data, that is stored in the database. 
+- But instead it creates a pointer which points to the existing document.
+- Indexes in MongoDB use B-TREE data structure to store indexes.
+- B-TREE stands for balance tree.
+
+#### Things to know
+- Indexes make accessing data easier and faster. It improves overall system performance.
+- Without indexes to retrieve any information, the whole collection wil be scanned.
+- MongoDB uses a B-TREE data structure to store indexes.
+- This structure resembles the form of a tree and it points to the actual data.
+- Indexes stores data in an organized way for easy access. Here, actual data is not organized, but indexes are stored separately and it consists of points to actual data.
+
+### The default Index in MongoDB
+- MongoDB has an index by default created on the collection, and that is on the _id field.
+
+```bash
+    # To get indexes
+    db.users.getIndexes();
+
+    { v: 2, key: { _id: 1 }, name: '_id_' }
+    # key: { _id: 1 } is the sorting order
+    # name: '_id_' is the index name
+```
+
+#### Observations
+- Here, name generated is the default name that is given to the index
+- Key is the key in the collection based on which the indexing is done.
+- The value for this key defines the sorting order in which the indexes are sorted. 1 stands for small to big ascending and -1 means reverse.
