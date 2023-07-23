@@ -1261,3 +1261,134 @@ db.indexDemo.explain('executionStats').find({ name: 'Elvin_0'})
 - Here, name generated is the default name that is given to the index
 - Key is the key in the collection based on which the indexing is done.
 - The value for this key defines the sorting order in which the indexes are sorted. 1 stands for small to big ascending and -1 means reverse.
+
+## 41. Create Index
+- MongoDB allows us to create indexes for the fields that we need.
+
+```bash
+    # syntax
+    db.<"collection-name">.createIndex({ <"key-name">: [-1 | 1]}, <Options>)
+
+    # Example
+    db.users.createIndex({ name: 1 });
+
+```
+### 42. Delete Index
+```bash
+    # syntax
+    db.users.dropIndex(<"index-name">);
+
+    # Example
+    db.users.dropIndex('city_-1');
+```
+
+## 42. What are the different index options
+- option is nothing but 1 more parameter which enables us to specify more informations about indexes.
+
+#### 1. Name option
+- by default mongodb gives a name to the index.
+- But in some scenario we might need to give a specific name for the index.
+- This is where name option comes in to the picture.
+
+```bash
+    db.users.createIndex({ city: 1 }, { name: 'city_index' } );
+    # name option enables us to specify the name of the index
+```
+
+#### 2. Unique option
+- Using unique option, we can make sure that the underlying key has no duplicate values in the specified collection.
+
+```bash
+    db.users.createIndex({ city: 1 }, { name: 'city_index', unique: true } );
+    # either we can combine name and unique or even if we only specify unique, still it works fine.
+```
+
+#### 3. background option
+
+- If we have an application that has huge data in the database or collection. if we wish to create indexes, so index creation is a process and it is very resource intensive and time consuming operation.
+- Because of these while the index creation process is on going the whole database would be unavailable.
+- So if our application is live we cannot afford downtime while our indexes have been created.
+- MongoDB has this option called "background", which we can specify to get indexes been created in the background.
+- This is very very helpful if our collection is really huge and we wish to create indexes without effecting the database availability and the application uptime.
+
+
+```bash
+    db.users.createIndex({ city: 1 }, { name: 'city_index', background: true } );
+```
+
+## 43. Indexes and their types
+### There are 3 types of indexes
+
+#### 1. Single field indexes
+- Single field indexes are indexes that exist on a single field.
+
+#### 2. Compound indexes
+- These are the indexes where the single index hold references to multiple fields in the document.
+
+#### 3. Multikey indexes
+- This is for arrays where index key is created for each element in an array, and it helps in efficient and faster queries in terms of performance against arrays.
+
+## 44. Compound indexes
+- In MongoDB we are allowed to create indexes on multiple fields and these indexes are known as compound indexes.   
+
+```bash
+    # Syntax
+    db.collection.createIndex({ 
+        <"key-name"> : [ -1 | 1 ],
+         <"key-name"> : [-1 | 1],
+         ....
+    })
+
+    # Example
+    db.users.createIndex({ name: 1, city: 1})
+```
+
+### Conclusion
+- Compound indexes are indexes that are created using multiple fields which are used to make queries using multiple fields faster.
+- Compound indexes are helpful in queries that involve sorting too.
+- With compound indexing, the order of fields specified in indexing matters since that will also decide the performance of queries too.
+
+## 45. Index performance 
+- when ever we are using indexes to fetch results, there are generally 3 types queries that we write.
+- The queries can be:
+    1. based on equality
+    2. based on sorting
+    3. based on range
+
+### 1. Equality
+- Equality involves we writing something to fetch the exact results to a value that we specify.
+```bash
+    # Example
+    db.users.find({ name: 'Aljith KJ' })
+    db.users.find({ name: { $eq: 'Aljith KJ' } })
+```
+
+- Order in which we create index does not matter, we will get the same performance.
+
+
+### 2. Sorting 
+- Sorting in queries determines the order of results
+- Usually, when writing queries, sorting follows equality matches, because equality matches reduces the number of documents that need to be sorted.
+
+### 3. Range
+- Range involves the queries where we want to get data that meet a particular range.
+- These fields scan documents and fields and look for matches that satisfy the bound specified in the query.
+
+```bash
+    # Example
+    db.users.find({ salary: { $gte: 20000 }})
+```
+
+## 46. ESR rule
+- MongoDB has an ESR which stands for Equality, Sorting, and Range
+- It says that whenever we have a query using all 3 functions, the index fields are to be specified in the ESR order.
+
+```bash
+    db.users.find({ city: 'Bangalore', salary: { $gt: 20000}}).sort({ name: -1})
+    # If we have a query like this, In that case we should create an index like below one
+    
+    db.users.createIndex({ city: 1, name: -1, salary: 1 })
+    # This is the index created by using ESR rule
+```
+
+- This is the rule which will enable us to have optimum performance. 
