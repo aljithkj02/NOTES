@@ -66,6 +66,38 @@ MongoDB is a popular NoSQL database that stores and manages data in a flexible, 
 
 32. One to One Relationship.
 
+33. One to Many Relationships
+
+34. Aggregation in MongoDB?
+
+35. Aggregation framework.
+
+36. What is an aggregation pipeline?
+
+37. Operators in aggregators
+
+38. $lookup
+
+39. $out
+
+40. Evaluating query performance in MongoDB
+
+41. What is indexing?
+
+42. Create Index
+
+43. Delete Index
+
+44. What are the different index options
+
+45. Indexes and their types
+
+46. Compound indexes
+
+47. Index performance
+
+48. ESR rule
+
 
 ## 1. Installation
 <a href="https://tecadmin.net/how-to-install-mongodb-on-ubuntu-22-04/">
@@ -798,20 +830,20 @@ then we can use upsert.
     }
 ```
 
-## 33. Aggregation in MongoDB?
+## 34. Aggregation in MongoDB?
 - Aggregation means processing multiple documents in a collection to get computed results.
 - Aggregation is very useful, when we have lot of data stored and we wished to process it.
 - If we want to get a list of users for a particular query we may use find.
 - But if we want to get list of users along with the count, in that case we will have to use aggregation.
 
-## 34. Aggregation framework.
+## 35. Aggregation framework.
 - While find() has its own use-case, MongoDB has an aggregation framework that allows developers to get aggregated results.
 - It provides an aggregate() method using which we can get computed results.
 - The aggregation framework breaks logic into simpler parts and processes each part one by one.
 - This might resemble a waterfall model where the out of one stage is given as input to the next stage.
 - The MongoDB Aggregation Framework is a powerful feature that allows users to perform data processing and transformation operations on documents within a collection. It offers a set of stages, such as $match, $group, $sort, $project, etc., that can be combined to create complex data pipelines for data analysis, reporting, and business intelligence tasks.
 
-## 35. What is an aggregation pipeline?
+## 36. What is an aggregation pipeline?
 - the aggregation pipeline in MongoDB is a powerful framework that allows you to process and transform data in a step-by-step manner. 
 - It's like an assembly line for data, where each stage performs a specific operation on the data and passes it to the next stage until the final result is obtained.
 
@@ -877,7 +909,7 @@ then we can use upsert.
 | $first            | Returns the first document from the group.                   |
 | $last             | Returns the last document from the group.                    |
 
-## 36. Operators in aggregators
+## 37. Operators in aggregators
 - $sum
 ```bash
     db.users.aggregate([ { $group: { _id: '$city', totalAge: { $sum: '$age'}}}])
@@ -1096,7 +1128,7 @@ then we can use upsert.
     # To get the top cities having highest users available except the first 3
 ```
 
-## 37. $lookup
+## 38. $lookup
 - $lookup is a powerful stage using which we can combine the information of 2 collection.
 - If you are coming from SQL background you can think of lookup as left out join.
 - With lookup we will get all the fields from the left of the collection, with the matching entries on the right of the collection.
@@ -1160,7 +1192,7 @@ then we can use upsert.
 - The 'as' we specify should be a valid document name.
 - if any value pre-exist in the name we specified in the document then that field will be overridden.
 
-## 38. $out
+## 39. $out
 - $out is a stage in aggregation which allows us to create a new collection from the existing one.
 - What it does is it will take the copy of all the records from the current collection and create a new collection with the copied documents
 - basically it creates a duplicated collection.
@@ -1195,7 +1227,7 @@ then we can use upsert.
 
 ```
 
-## 39. Evaluating query performance in MongoDB
+## 40. Evaluating query performance in MongoDB
 ### MongoDB provides a method called 'explain'
 - This method enables us to see the performance of a query
 - And this method provide some stats which enables us to check how much work our query did.
@@ -1213,7 +1245,7 @@ db.indexDemo.explain('executionStats').find({ name: 'Elvin_0'})
 
 ```
 
-## 40. What is indexing?
+## 41. What is indexing?
 - A real world database will usually consist of lots of data around our application.
 - With lots of data it is important that we should be able to quickly find the result that we need.
 
@@ -1262,7 +1294,7 @@ db.indexDemo.explain('executionStats').find({ name: 'Elvin_0'})
 - Key is the key in the collection based on which the indexing is done.
 - The value for this key defines the sorting order in which the indexes are sorted. 1 stands for small to big ascending and -1 means reverse.
 
-## 41. Create Index
+## 42. Create Index
 - MongoDB allows us to create indexes for the fields that we need.
 
 ```bash
@@ -1273,7 +1305,7 @@ db.indexDemo.explain('executionStats').find({ name: 'Elvin_0'})
     db.users.createIndex({ name: 1 });
 
 ```
-### 42. Delete Index
+## 43. Delete Index
 ```bash
     # syntax
     db.users.dropIndex(<"index-name">);
@@ -1282,7 +1314,7 @@ db.indexDemo.explain('executionStats').find({ name: 'Elvin_0'})
     db.users.dropIndex('city_-1');
 ```
 
-## 42. What are the different index options
+## 44. What are the different index options
 - option is nothing but 1 more parameter which enables us to specify more informations about indexes.
 
 #### 1. Name option
@@ -1316,7 +1348,7 @@ db.indexDemo.explain('executionStats').find({ name: 'Elvin_0'})
     db.users.createIndex({ city: 1 }, { name: 'city_index', background: true } );
 ```
 
-## 43. Indexes and their types
+## 45. Indexes and their types
 ### There are 3 types of indexes
 
 #### 1. Single field indexes
@@ -1328,7 +1360,7 @@ db.indexDemo.explain('executionStats').find({ name: 'Elvin_0'})
 #### 3. Multikey indexes
 - This is for arrays where index key is created for each element in an array, and it helps in efficient and faster queries in terms of performance against arrays.
 
-## 44. Compound indexes
+## 46. Compound indexes
 - In MongoDB we are allowed to create indexes on multiple fields and these indexes are known as compound indexes.   
 
 ```bash
@@ -1348,7 +1380,7 @@ db.indexDemo.explain('executionStats').find({ name: 'Elvin_0'})
 - Compound indexes are helpful in queries that involve sorting too.
 - With compound indexing, the order of fields specified in indexing matters since that will also decide the performance of queries too.
 
-## 45. Index performance 
+## 47. Index performance 
 - when ever we are using indexes to fetch results, there are generally 3 types queries that we write.
 - The queries can be:
     1. based on equality
@@ -1379,7 +1411,7 @@ db.indexDemo.explain('executionStats').find({ name: 'Elvin_0'})
     db.users.find({ salary: { $gte: 20000 }})
 ```
 
-## 46. ESR rule
+## 48. ESR rule
 - MongoDB has an ESR which stands for Equality, Sorting, and Range
 - It says that whenever we have a query using all 3 functions, the index fields are to be specified in the ESR order.
 
