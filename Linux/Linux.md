@@ -215,3 +215,187 @@ echo $PATH
 - <b>rwx</b> is for the user. Read, write, execute.
 - <b>r-x</b> is for the group. Just read and execute, no writing.
 - <b>r-x</b> is for the everyone else. Just read and execute, no writing.
+
+
+### 3. cd
+- cd command stands for change directory.
+
+### 4. file
+- file command is used to get the details about the file.
+- In linux file extension not really matter.
+- Unlike windows, Linux doesn't determine file type using the file extension, but instead it reads a piece of code of that inserted top of every file.
+- That piece of code is known as header, and it serves as kind of label to linux to read.
+
+## 6. Wild cards
+
+### * wild card
+```bash
+    ls *.txt
+    ls */*.txt
+
+    # * can be any word or name with any length
+```
+
+### ? wild card
+- Wild cards are used to build patterns called "Regular expressions".
+
+```bash
+    ls ?.txt
+    ls */?.txt
+
+    # ? should be 1 character
+    # In the above case it will search for files which has .txt at the end and the file name should be 1 character
+    # Example
+    # f.txt   t.txt   1.txt
+```
+
+
+```bash
+    ls file?.txt
+    ls */file?.txt
+
+    # Output
+    # file1.txt   file2.txt   filez.txt
+```
+
+### [ ] wild card
+```bash
+    ls file[0123456789].txt
+    or
+    ls file[0-9].txt
+
+    # Output
+    file1.txt file2.txt file3.txt
+```
+
+```bash
+    ls file[ABCDEFG].txt
+    ls file[A-Z].txt
+
+    # Output
+    fileA.txt fileB.txt fileC.txt
+```
+
+```bash
+    ls file[0-9][0-9].txt
+
+    # Output
+    file11.txt file10.txt file20.txt
+```
+
+
+```bash
+    ls file[0-9ABC].txt
+
+    # Output
+    file1.txt file2.txt file3.txt fileA.txt fileB.txt fileC.txt
+```
+
+### mkdir
+    - It is basically used to create directories.
+```bash
+    mkdir newFolder
+
+    mkdir folder/new/user
+    # If we try to create nested folder which the parent folder doesn't exit, it will throw error.
+```
+
+- To create folder which has multiple hierarchy level of folders we have to write command like this 
+```bash
+    mkdir -p folder/new/user 
+```
+- -p option is used to create the entire path in one go.
+
+```bash
+    mkdir -p delfolder/folder{1,2,3,4,5} 
+    or
+    mkdir -p delfolder/folder{1..5} 
+
+    # This will create folder1 folder2 folder3 folder4 folder5 named folders within delfolder
+```
+
+### rmdir
+    - is used to remove empty directories.
+
+### touch 
+    - touch command is used to create files
+
+### rm
+    - rm command is used to remove files.
+    - rm -r is a very powerful command.
+    - by using rm command we can able to delete folders and files which are within the directory. 
+
+```bash
+    rm -ri delfolder/
+
+    # -ri here means, r is for recursive and i for interactive, so in this cast before deleting each file and directory
+    it will ask for permission.
+```
+### cp 
+- cp command is used to copy files and directories.
+
+```bash
+    cp <from> <to>
+    cp text.txt copy.txt
+
+    # This will copy the contents inside the text.txt to copy.txt file. 
+    # If the copy.txt file doesn't exist it creates that file.
+
+```
+
+- The last argument always should be <to>, we can copy multiple files or directories to one destination.
+```bash
+    cp text1.txt text2.txt text3.txt  folder
+
+    # in this case cp <from> <from> <from> <to>
+```
+
+### mv 
+- mv command is used to move and rename files and folders.
+
+```bash
+    mv oldName.txt newName.txt
+    mv oldFolder newFolder
+```
+
+```bash
+    mv newFolder/* .
+    #It moves the all files and folders inside the newFolder in to the current directory.
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
