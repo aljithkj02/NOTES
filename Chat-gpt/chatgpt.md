@@ -1,0 +1,1 @@
+<a href="https://github.com/f/awesome-chatgpt-prompts">Chatgpt Prompts</a>

@@ -105,3 +105,17 @@ Kubernetes is one of the best and most popular container orchestration technolog
 - To get cluster information, to get the status of other nodes in the cluster and to manage many other things.
 - The kubectl run command is used to deploy an application on the cluster.
 - The kubectl cluster-info command is used to view information about the cluster and the kubectl get nodes command is used to list all nodes part of the cluster.
+
+## 6, Pods
+- Kubernetes does not deploy containers directly on the worker nodes.
+- The containers are encapsulated into a Kubernetes object known as pods.
+- A pod is a single instance of an application.
+- A pod is the smallest object that we can create in kubernetes.
+- Pods usually have a 1 to 1 relationship with containers running our application.
+- To scale up, we create new pods and scale down we delete existing pods.
+- We do not add additional containers to an existing pod to scale our application.
+
+## 7, Multi-Container pods
+- A single pod can have multiple containers except for the fact that they're usually not multiple containers of the same kind.
+- If our intention was to scale our application, then we would need to create additional pods.
+- But sometime we might have a scenario where we have a helper container that might be doing some kind of supporting task for our web application, such as processing a user entered data, processing a file uploaded by the user.
