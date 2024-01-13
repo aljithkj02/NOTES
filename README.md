@@ -1,7 +1,7 @@
 # Index
 
-1. [Linework](#linework)
-2. [Make-Notion](#make-notion)
+1. [Linework](#1-linework)
+2. [Make-Notion](#2-make-notion)
 
 # 1. Linework
 
