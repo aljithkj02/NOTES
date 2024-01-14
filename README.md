@@ -9,7 +9,7 @@
 Linework is a versatile app that acts as a one-stop solution for various needs. It functions as a marketplace for products, services, and art, along with offering social networking and crypto-based banking features. The application is divided into three main components: E-commerce, Social Media, and Web3. In essence, Linework aims to simplify and connect various aspects of daily life in a single, user-friendly platform.
 
 ## Frontend 
-- Led the development of E-commerce and Social Media frontends for Linework, a global application transforming product management in the cosmetics industry and offering a robust social networking platform.
+- Led the development of E-commerce and Social Media frontends for Linework.
 
 - Designed and implemented responsive and intuitive user interfaces using React, contributing to seamless user experiences in both E-commerce and Social Media sections.
 
