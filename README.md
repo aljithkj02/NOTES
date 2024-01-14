@@ -23,8 +23,6 @@ Linework is a versatile app that acts as a one-stop solution for various needs. 
 
 - Developed and maintained APIs using Axios, ensuring efficient data retrieval and communication with the backend for both E-commerce and Social Media functionalities.
 
-- Worked closely with backend developers to guarantee seamless integration between front-end and backend systems in both project components.
-
 - Conducted code reviews and provided constructive feedback to junior team members, fostering a collaborative and knowledge-sharing environment.
 
 - Implemented responsive design principles to ensure consistent user experiences across various devices, contributing to increased user engagement in both platforms.
@@ -32,8 +30,6 @@ Linework is a versatile app that acts as a one-stop solution for various needs. 
 - Executed performance optimization techniques, resulting in reduced page load times and improved overall application responsiveness for both sections.
 
 - Actively participated in Agile development methodologies, attending daily stand-ups, sprint planning, and retrospective meetings for effective project delivery.
-
-- Collaborated with cross-functional teams to brainstorm and implement innovative features, ensuring Linework stays at the forefront of technology in both E-commerce and Social Media domains.
 
 - Stayed informed about the latest developments in React and frontend technologies, introducing best practices and performance optimizations to both project components.
 
