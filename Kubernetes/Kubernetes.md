@@ -127,8 +127,59 @@ But there is a key difference.
 - And we need to make sure there is no confilcting ports.
 - Add rate limiting will be challenging if we add lot of load balancers as a single app.
 
+## Ingress
+- Ingress is an API object that manages external access to the services in a cluster, typically http & https traffic.
+- k8s itself doesn't provide an ingress controller implementation, rather specifies the ingress API.
+- There are various ingress controllers out there, we can use any of them.
+- A popular one is nginx ingress.
+- It is managing access rules from a central point rather than each service independently.
+- Reduces the number of load balancers needed.
+- It also provides a Load balancer.
 
+## Secrets
+- It is designed specifically to store sensitive data such as passwords, OAuth tokens, and SSH keys
 
+## ConfigMap
+- It is used to store non-sensitive configuration data such as configuration files, env, command line args.
+
+## Ephemeral Volume
+- it means Temporory volume that can be shared amongst various containers of a pod.
+- When the pod dies the volume dies with it.
+- eg, Config map, Secret, emptyDir
+
+## Persistent Volume (PV)
+- In kubernetes there is a feature called persistent volume.
+- For ephemeral type volume we can use config map, secret etc. But if we want a persistent data, for eg - if we are running a mongo pod in our cluster, if the cluster or the mongo pod went down our data would be lost right, so the best thing we can do that we can mount a volume externally to our cluster, so even if everything wend down we can get it back.
+- For that we need to create a block storage or nfs anywhere in the cloud or local and create a k8s object for persistent volume (PV) and add necessary info. 
+- So it is available to the cluster.
+- We can also generate this dynamically.
+
+## Persistent Volume Claiim (PVC)
+- Now PV is available, now we have to claim the PV.
+- A PVC is a request from storage. In PVC we specify size, and access mode etc.
+- Once the PVC is created, it is automatically bound to a suitable PV by k8s or it waits until such a PV available.
+
+## Horizontal Pod AutoScalar (HPA)
+- A HPA is a k8s feature that automatically adjusts the number of pod replicas in a deployment, replicaset, or stateful set based on observed metrics like cpu utilization or custom metrics.
+- This helps to ensure that the application can handle varying loads by scaling out ( adding more pod replicas ) when demand increases and scaling in ( reducing the number of pod replicas) when the demand decreases.
+
+## CAdvisor ( Container Advisor )
+- It provides container users and understanding of the resource usage and performance characterstics of their running containers.
+- Specifically, CAdvisor auto discovers all the containers in the machine and collects CPU, memory, file system, and network usage statistics.
+- It is an internal package within kubelets.
+- In k8s environment, CAdivisor is intgrated into the kubelet binary.
+- Kubelet uses CAdvisor to collect information about container resource usage and performance charecterstics.
+- This information can be used by k8s components like the HPA or Scheduler for making decisions about deployments and resource allocations.
+
+## Metric Server
+- It is a light weight, in memory aggregator of data collected from nodes.
+- It gathers metrics like CPU & memory usage from the kubelet on each node and exposes this aggregated data through the k8s APIs.
+- This info can be accessed by k8s components, such as the HPA or k8s dashboard.
+
+## Resource Management
+- Inorder to fairly distribute the resources among services in a cluster, we can mention the resource metrix of a pod in the deployment.
+- There we can add the minimum & maximum cpu & memory.
+- So our pod will take minimum CPU & memory won't take more that the limit we mentioned.
 
 
 
